@@ -97,6 +97,7 @@ class NodeConfigBase:
         """Make call to remote node to follow"""
         target_author_url = self.from_author_id_to_url(target_id)
         url = f'{target_author_url}/followers/'
+        # todo: change with our own credential!!!!
         response = requests.post(url,
                                  auth=(self.username, self.password),
                                  data={'actor': actor_url})

@@ -78,4 +78,6 @@ class TestHelper:
             if '{placeholder}' in value:
                 default_args[key] = default_args[key].format(placeholder=username)
 
+        if 'is_superuser' in default_args:
+            return Author.objects.create_superuser(**default_args)
         return Author.objects.create_user(**default_args)
