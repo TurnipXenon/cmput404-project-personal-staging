@@ -33,6 +33,7 @@ class NodeConfigBase:
             return
 
         credentials = base.REMOTE_CONFIG_CREDENTIALS[base.CURRENT_DOMAIN]
+        print(credentials)
         self.username = credentials['username']
         self.password = credentials['password']
         # todo(turnip): check entry in Author, check if inactive?
