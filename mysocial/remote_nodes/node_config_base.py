@@ -68,17 +68,14 @@ class NodeConfigBase:
             return Response(json.loads(response.content))
         return HttpResponseNotFound()
 
-    def get_author_via_url(self, author_url: str) -> Author:
-        token = base64.b64encode(f'{self.username}:{self.password}'.encode('ascii')).decode('utf-8')
-        headers = {'HTTP_AUTHORIZATION': f'Basic {token}'}
-        response = requests.get(author_url, **headers)
+    def get_author_via_url(self, author_url: str) -> dict:
+        # token = base64.b64encode(f'{self.username}:{self.password}'.encode('ascii')).decode('utf-8')
+        # headers = {'HTTP_AUTHORIZATION': f'Basic {token}'}
+        response = requests.get(author_url, auth=(self.username, self.password))
 
         if response.status_code == 200:
             # todo(turnip): map to our author?
-            serializer = self.__class__.author_serializer(data=response.data)
-            if not serializer.is_valid():
-                return None
-            return serializer.validated_data
+            return json.loads(response.content.decode('utf-8'))
         else:
             return None
 
@@ -101,7 +98,7 @@ class NodeConfigBase:
         response = requests.post(url,
                                  auth=(self.username, self.password),
                                  data={'actor': actor_url})
-        if response.status_code >= 200 or response.status_code < 300:
+        if 200 <= response.status_code < 300:
             return Response(json.loads(response.content))
         # todo: fix non-RESTful response; some cases need to return 500
         return Response(status=response.status_code)

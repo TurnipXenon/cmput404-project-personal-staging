@@ -273,7 +273,7 @@ class FollowersView(GenericAPIView):
 
         if request.user.is_authenticated_node:
             # a remote node tells us that one of its users wants to follow someone in our server
-            return FollowersView.post_remote_local(request, author_id=author_id)
+            return FollowersView.post_remote_follow_local(request, author_id=author_id)
 
         return HttpResponseForbidden()
 
@@ -319,10 +319,10 @@ class FollowersView(GenericAPIView):
         :return:
         """
         # todo: clean up code?
-        author_actor_url = request.data['actor']
         target = None
         data = None
         try:
+            author_actor_url = request.data['actor']
             target = Author.objects.get(official_id=author_id)
             follow = Follow.objects.create(actor=author_actor_url, target=target.get_id(), has_accepted=False)
             serializers = FollowRequestSerializer(follow)
