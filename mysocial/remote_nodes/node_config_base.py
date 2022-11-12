@@ -26,13 +26,13 @@ class NodeConfigBase:
     author_serializer = AuthorSerializer
 
     def __init__(self):
-        if self.__class__.domain not in base.REMOTE_CONFIG_CREDENTIALS:
+        if base.CURRENT_DOMAIN not in base.REMOTE_CONFIG_CREDENTIALS:
             print(f'{self.__class__.domain} is not in ConfigVars REMOTE_CONFIG_CREDENTIALS')
             self.username = 'username'
             self.password = 'password'
             return
 
-        credentials = base.REMOTE_CONFIG_CREDENTIALS[self.__class__.domain]
+        credentials = base.REMOTE_CONFIG_CREDENTIALS[base.CURRENT_DOMAIN]
         self.username = credentials['username']
         self.password = credentials['password']
         # todo(turnip): check entry in Author, check if inactive?
