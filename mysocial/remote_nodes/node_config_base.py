@@ -41,7 +41,7 @@ class NodeConfigBase:
             self.username = self.node_detail.remote_username
             self.password = self.node_detail.remote_password
         except Exception as e:
-            print('Author does not exist yet...')
+            print(f'Author does not exist yet...: {e}')
 
     @classmethod
     def create_dictionary_entry(cls):
